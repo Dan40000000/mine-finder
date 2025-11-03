@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mine Finder Icon Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        canvas {
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #38bdf8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0ea5e9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mine Finder App Icon</h1>
+    <canvas id="iconCanvas" width="1024" height="1024"></canvas>
+    <button onclick="downloadIcon()">Download Icon</button>
+
+    <script>
+        const canvas = document.getElementById('iconCanvas');
+        const ctx = canvas.getContext('2d');
+        const size = 1024;
+
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#0ea5e9');
+        gradient.addColorStop(0.5, '#38bdf8');
+        gradient.addColorStop(1, '#7dd3fc');
+
+        // Fill background with rounded corners
+        ctx.fillStyle = gradient;
+        roundRect(ctx, 0, 0, size, size, 180);
+        ctx.fill();
+
+        // Draw grid pattern (subtle)
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 3;
+        const gridSize = size / 5;
+        for (let i = 1; i < 5; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * gridSize, 50);
+            ctx.lineTo(i * gridSize, size - 50);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(50, i * gridSize);
+            ctx.lineTo(size - 50, i * gridSize);
+            ctx.stroke();
+        }
+
+        // Draw large triangle (marker symbol) in center
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 10;
+
+        const centerX = size / 2;
+        const centerY = size / 2;
+        const triangleSize = 280;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY - triangleSize / 2);
+        ctx.lineTo(centerX - triangleSize / 2.5, centerY + triangleSize / 2);
+        ctx.lineTo(centerX + triangleSize / 2.5, centerY + triangleSize / 2);
+        ctx.closePath();
+        ctx.fill();
+
+        // Add decorative numbers in corners
+        ctx.shadowColor = 'transparent';
+        ctx.font = 'bold 120px Arial';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.fillText('1', 100, 180);
+        ctx.fillText('2', size - 180, 180);
+        ctx.fillText('3', 100, size - 100);
+
+        function roundRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        function downloadIcon() {
+            const link = document.createElement('a');
+            link.download = 'mine-finder-icon.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
