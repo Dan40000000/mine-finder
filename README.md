@@ -1,16 +1,68 @@
-# React + Vite
+# Mine Finder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Minesweeper game built with React and deployed as an iOS app using Capacitor.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 4 difficulty levels: 10x10, 20x20, 30x30, and 50x50 grids
+- Custom mine count configuration
+- Victory and game over animations with fireworks and confetti
+- Stats tracking system
+- Marking mode for flagging suspected mines
+- Mobile-optimized UI designed for iPhone
+- Custom blue gradient app icon
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite for the web app
+- Capacitor for iOS deployment
+- CSS animations for visual effects
+- LocalStorage for stats persistence
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Web Development
+```bash
+npm install
+npm run dev
+```
+
+### Build for Production
+```bash
+npm run build
+```
+
+### iOS Development
+```bash
+npm run build
+npx cap sync ios
+npx cap open ios
+```
+
+Then build and run from Xcode.
+
+## App Store Information
+
+- **App Name**: Mine Finder
+- **Bundle ID**: com.minefinder.app
+- **Version**: 1.0
+- **Build**: 1
+- **iOS Version**: 14.0+
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── Menu.jsx      # Main menu with difficulty selection
+│   ├── Game.jsx      # Game board and logic
+│   ├── Cell.jsx      # Individual cell component
+│   └── Stats.jsx     # Statistics display
+├── utils/
+│   ├── gameLogic.js      # Minesweeper game logic
+│   └── statsManager.js   # Stats tracking
+└── App.jsx           # Main app component
+
+ios/
+└── App/              # iOS Capacitor project
+```
