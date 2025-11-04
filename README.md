@@ -1,4 +1,4 @@
-# Mine Finder
+# Bomb Squad
 
 A modern Minesweeper game built with React and deployed as an iOS app using Capacitor.
 
@@ -43,7 +43,7 @@ Then build and run from Xcode.
 
 ## App Store Information
 
-- **App Name**: Mine Finder
+- **App Name**: Bomb Squad
 - **Bundle ID**: com.minefinder.app
 - **Version**: 1.0
 - **Build**: 1

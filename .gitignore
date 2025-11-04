@@ -53,3 +53,4 @@ android/local.properties
 
 # Debug
 *.map
+.vercel
