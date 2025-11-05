@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mine Finder Icon Generator</title>
+    <title>Mine Hunter Pro Icon Generator</title>
     <style>
         body {
             margin: 0;
@@ -20,19 +20,19 @@
         button {
             padding: 15px 30px;
             font-size: 18px;
-            background: #38bdf8;
+            background: #ef4444;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
         }
         button:hover {
-            background: #0ea5e9;
+            background: #dc2626;
         }
     </style>
 </head>
 <body>
-    <h1>Mine Finder App Icon</h1>
+    <h1>Mine Hunter Pro App Icon</h1>
     <canvas id="iconCanvas" width="1024" height="1024"></canvas>
     <button onclick="downloadIcon()">Download Icon</button>
 
@@ -41,11 +41,11 @@
         const ctx = canvas.getContext('2d');
         const size = 1024;
 
-        // Create gradient background
+        // Create dark gradient background
         const gradient = ctx.createLinearGradient(0, 0, size, size);
-        gradient.addColorStop(0, '#0ea5e9');
-        gradient.addColorStop(0.5, '#38bdf8');
-        gradient.addColorStop(1, '#7dd3fc');
+        gradient.addColorStop(0, '#1e293b');
+        gradient.addColorStop(0.5, '#334155');
+        gradient.addColorStop(1, '#475569');
 
         // Fill background with rounded corners
         ctx.fillStyle = gradient;
@@ -53,46 +53,112 @@
         ctx.fill();
 
         // Draw grid pattern (subtle)
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'rgba(100, 116, 139, 0.3)';
+        ctx.lineWidth = 4;
         const gridSize = size / 5;
         for (let i = 1; i < 5; i++) {
             ctx.beginPath();
-            ctx.moveTo(i * gridSize, 50);
-            ctx.lineTo(i * gridSize, size - 50);
+            ctx.moveTo(i * gridSize, 80);
+            ctx.lineTo(i * gridSize, size - 80);
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.moveTo(50, i * gridSize);
-            ctx.lineTo(size - 50, i * gridSize);
+            ctx.moveTo(80, i * gridSize);
+            ctx.lineTo(size - 80, i * gridSize);
             ctx.stroke();
         }
 
-        // Draw large triangle (marker symbol) in center
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-        ctx.shadowBlur = 20;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 10;
+        // Function to draw a bomb
+        function drawBomb(x, y, radius, opacity = 1) {
+            // Bomb body
+            ctx.shadowColor = `rgba(0, 0, 0, ${opacity * 0.5})`;
+            ctx.shadowBlur = 15;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 8;
 
+            ctx.fillStyle = `rgba(30, 30, 30, ${opacity})`;
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Highlight
+            const highlightGrad = ctx.createRadialGradient(x - radius/3, y - radius/3, 0, x, y, radius);
+            highlightGrad.addColorStop(0, `rgba(80, 80, 80, ${opacity})`);
+            highlightGrad.addColorStop(1, `rgba(20, 20, 20, ${opacity})`);
+            ctx.fillStyle = highlightGrad;
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Fuse
+            ctx.strokeStyle = `rgba(139, 92, 46, ${opacity})`;
+            ctx.lineWidth = radius / 5;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(x + radius * 0.5, y - radius * 0.5);
+            ctx.lineTo(x + radius * 0.9, y - radius * 1.2);
+            ctx.stroke();
+
+            // Spark
+            ctx.fillStyle = `rgba(255, 150, 0, ${opacity})`;
+            ctx.beginPath();
+            ctx.arc(x + radius * 0.9, y - radius * 1.2, radius / 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = `rgba(255, 200, 0, ${opacity})`;
+            ctx.beginPath();
+            ctx.arc(x + radius * 0.9, y - radius * 1.2, radius / 12, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.shadowColor = 'transparent';
+        }
+
+        // Draw multiple bombs scattered
         const centerX = size / 2;
         const centerY = size / 2;
-        const triangleSize = 280;
 
+        // Background bombs (subtle)
+        drawBomb(200, 250, 60, 0.3);
+        drawBomb(800, 300, 50, 0.25);
+        drawBomb(300, 750, 55, 0.3);
+        drawBomb(750, 700, 50, 0.25);
+        drawBomb(150, 600, 45, 0.2);
+        drawBomb(850, 600, 45, 0.2);
+
+        // Main central bomb (large)
+        drawBomb(centerX, centerY, 200, 1);
+
+        // Draw magnifying glass over bomb (hunter theme)
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 20;
+        ctx.shadowColor = 'rgba(251, 191, 36, 0.4)';
+        ctx.shadowBlur = 20;
+
+        // Magnifying glass circle
         ctx.beginPath();
-        ctx.moveTo(centerX, centerY - triangleSize / 2);
-        ctx.lineTo(centerX - triangleSize / 2.5, centerY + triangleSize / 2);
-        ctx.lineTo(centerX + triangleSize / 2.5, centerY + triangleSize / 2);
-        ctx.closePath();
-        ctx.fill();
+        ctx.arc(centerX + 100, centerY - 80, 150, 0, Math.PI * 2);
+        ctx.stroke();
 
-        // Add decorative numbers in corners
+        // Handle
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(centerX + 200, centerY - 30);
+        ctx.lineTo(centerX + 280, centerY + 50);
+        ctx.stroke();
+
         ctx.shadowColor = 'transparent';
-        ctx.font = 'bold 120px Arial';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-        ctx.fillText('1', 100, 180);
-        ctx.fillText('2', size - 180, 180);
-        ctx.fillText('3', 100, size - 100);
+
+        // Add crosshair in magnifying glass
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(centerX + 100 - 40, centerY - 80);
+        ctx.lineTo(centerX + 100 + 40, centerY - 80);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(centerX + 100, centerY - 80 - 40);
+        ctx.lineTo(centerX + 100, centerY - 80 + 40);
+        ctx.stroke();
 
         function roundRect(ctx, x, y, width, height, radius) {
             ctx.beginPath();
@@ -110,7 +176,7 @@
 
         function downloadIcon() {
             const link = document.createElement('a');
-            link.download = 'mine-finder-icon.png';
+            link.download = 'mine-hunter-icon.png';
             link.href = canvas.toDataURL();
             link.click();
         }
